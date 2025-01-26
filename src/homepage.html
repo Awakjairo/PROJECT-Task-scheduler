@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Task Scheduler</h1>
+    </header>
+    <main>
+        <section id="task-list">
+            <h2>Upcoming Tasks</h2>
+            <ul id="task-list-ul">
+                <!-- tasks will be displayed here -->
+            </ul>
+        </section>
+        <section id="add-task">
+            <h2>Add New Task</h2>
+            <form id="add-task-form">
+                <label for="task-name">Task Name:</label>
+                <input type="text" id="task-name" name="task-name"><br><br>
+                <label for="task-description">Task Description:</label>
+                <textarea id="task-description" name="task-description"></textarea><br><br>
+                <label for="task-deadline">Task Deadline:</label>
+                <input type="datetime-local" id="task-deadline" name="task-deadline"><br><br>
+                <button id="add-task-btn">Add Task</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
 
