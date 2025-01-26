@@ -1,0 +1,69 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+header {
+    background-color:rgb(200, 217, 252);
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+#task-list {
+    flex: 1;
+    margin-right: 20px;
+}
+
+#task-list-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#task-list-ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#task-list-ul li:last-child {
+    border-bottom: none;
+}
+
+#add-task {
+    flex: 1;
+}
+
+#add-task-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-task-form label {
+    margin-bottom: 10px;
+}
+
+#add-task-form input, #add-task-form textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+#add-task-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-task-btn:hover {
+    background-color: #3e8e41;
+}
