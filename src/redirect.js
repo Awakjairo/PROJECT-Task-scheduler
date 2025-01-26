@@ -1,5 +1,4 @@
 // script.js
-
 const loginForm = document.getElementById('login-form');
 const loginBtn = document.getElementById('login-btn');
 const errorMessage = document.getElementById('error-message');
