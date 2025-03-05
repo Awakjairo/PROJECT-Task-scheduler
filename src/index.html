@@ -1,25 +1,205 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Task Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #task-scheduler-app {
+            display: none; /* Hidden by default, shown after login */
+        }
+        
+        #login-container {
+            display: block; /* Shown by default, hidden after login */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <form id="login-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password"><br><br>
-            <button id="login-btn">Login</button>
-        </form>
-        <p id="error-message"></p>
+    <!-- Login Section -->
+    <div id="login-container" class="login-page">
+        <div class="container">
+            <h1>Login</h1>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+                <button id="login-btn" type="button">Login</button>
+            </form>
+            <p id="error-message"></p>
+        </div>
     </div>
 
-    <script src="redirect.js"></script>
+    <!-- Task Scheduler App Section -->
+    <div id="task-scheduler-app">
+        <header>
+            <h1>Task Scheduler</h1>
+            <div class="user-controls">
+                <span id="welcome-user"></span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </header>
+        <main>
+            <section id="task-list">
+                <h2>Upcoming Tasks</h2>
+                <ul id="task-list-ul">
+                    <!-- tasks will be displayed here -->
+                </ul>
+            </section>
+            <section id="add-task">
+                <h2>Add New Task</h2>
+                <form id="add-task-form">
+                    <label for="task-name">Task Name:</label>
+                    <input type="text" id="task-name" name="task-name">
+                    
+                    <label for="task-description">Task Description:</label>
+                    <textarea id="task-description" name="task-description"></textarea>
+                    
+                    <label for="task-deadline">Task Deadline:</label>
+                    <input type="datetime-local" id="task-deadline" name="task-deadline">
+                    
+                    <button id="add-task-btn" type="button">Add Task</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Combined JavaScript -->
+    <script>
+        // Login functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('login-btn');
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            const loginContainer = document.getElementById('login-container');
+            const taskSchedulerApp = document.getElementById('task-scheduler-app');
+            const welcomeUser = document.getElementById('welcome-user');
+            const logoutBtn = document.getElementById('logout-btn');
+            const taskList = document.getElementById('task-list-ul');
+            const addTaskForm = document.getElementById('add-task-form');
+            const addTaskBtn = document.getElementById('add-task-btn');
+            
+            // Task data storage
+            let tasks = [];
+            
+            // Login event handler
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple authentication logic (replace with your own)
+                if (username === 'awakjairo' && password === 'password') {
+                    // Hide login, show app
+                    loginContainer.style.display = 'none';
+                    taskSchedulerApp.style.display = 'block';
+                    welcomeUser.textContent = `Welcome, ${username}!`;
+                    
+                    // Load tasks (this would come from storage in a real app)
+                    displayTasks();
+                } else {
+                    errorMessage.textContent = 'Invalid username or password';
+                }
+            });
+            
+            // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                loginContainer.style.display = 'block';
+                taskSchedulerApp.style.display = 'none';
+                loginForm.reset();
+                errorMessage.textContent = '';
+            });
+            
+            // Task management functionality
+            addTaskBtn.addEventListener('click', addTask);
+            
+            function addTask(e) {
+                e.preventDefault();
+                let taskName = document.getElementById('task-name').value;
+                let taskDescription = document.getElementById('task-description').value;
+                let taskDeadline = document.getElementById('task-deadline').value;
+                
+                if (!taskName) {
+                    alert('Task name is required!');
+                    return;
+                }
+                
+                let newTask = { 
+                    name: taskName, 
+                    description: taskDescription, 
+                    deadline: taskDeadline 
+                };
+                
+                tasks.push(newTask);
+                displayTasks();
+                addTaskForm.reset();
+            }
+            
+            function displayTasks() {
+                taskList.innerHTML = '';
+                tasks.forEach((task, index) => {
+                    let taskListItem = document.createElement('li');
+                    taskListItem.textContent = `${task.name} - ${task.description} - ${task.deadline}`;
+                    
+                    let taskActions = document.createElement('div');
+                    taskActions.className = 'task-actions';
+                    
+                    let editBtn = document.createElement('button');
+                    editBtn.textContent = 'Edit';
+                    editBtn.addEventListener('click', () => {
+                        editTask(index);
+                    });
+                    
+                    let deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.addEventListener('click', () => {
+                        deleteTask(index);
+                    });
+                    
+                    taskActions.appendChild(editBtn);
+                    taskActions.appendChild(deleteBtn);
+                    taskListItem.appendChild(taskActions);
+                    taskList.appendChild(taskListItem);
+                });
+            }
+            
+            function editTask(index) {
+                let task = tasks[index];
+                document.getElementById('task-name').value = task.name;
+                document.getElementById('task-description').value = task.description;
+                document.getElementById('task-deadline').value = task.deadline;
+                
+                // Change button functionality temporarily
+                addTaskBtn.textContent = 'Update Task';
+                addTaskBtn.removeEventListener('click', addTask);
+                
+                // Add one-time update handler
+                const updateHandler = function(e) {
+                    e.preventDefault();
+                    task.name = document.getElementById('task-name').value;
+                    task.description = document.getElementById('task-description').value;
+                    task.deadline = document.getElementById('task-deadline').value;
+                    
+                    displayTasks();
+                    addTaskForm.reset();
+                    
+                    // Restore original button functionality
+                    addTaskBtn.textContent = 'Add Task';
+                    addTaskBtn.removeEventListener('click', updateHandler);
+                    addTaskBtn.addEventListener('click', addTask);
+                };
+                
+                addTaskBtn.addEventListener('click', updateHandler);
+            }
+            
+            function deleteTask(index) {
+                if (confirm('Are you sure you want to delete this task?')) {
+                    tasks.splice(index, 1);
+                    displayTasks();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
