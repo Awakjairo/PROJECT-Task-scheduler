@@ -2,9 +2,9 @@ name: Task Scheduler CI
 
 on:
   push:
-    branches: [ main, develop, 'feature/**', 'bugfix/**', 'hotfix/**', 'release/**' ]
+    branches: [ main, Development, Testing, Bug-Fixing ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, Development ]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         cache: 'npm'
     
     - name: Install dependencies
-      run: npm ci
+      run: npm ci || npm install
     
     - name: Lint code
       run: npm run lint
@@ -32,9 +32,6 @@ jobs:
     
     - name: Run tests
       run: npm test
-    
-    - name: Build project
-      run: npm run build --if-present
     
     - name: Generate test coverage report
       run: npm run test:coverage
@@ -46,61 +43,3 @@ jobs:
         name: coverage-report
         path: coverage/
       if: success() || failure()
-    
-    - name: Check for vulnerabilities
-      run: npm audit
-      continue-on-error: true
-
-  deploy-preview:
-    needs: build
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build project
-      run: npm run build --if-present
-    
-    - name: Deploy to preview environment
-      run: |
-        echo "Deploying to preview environment..."
-        # Add deployment steps here when ready
-        echo "Preview URL: https://preview-${{ github.event.pull_request.number }}.task-scheduler-app.example.com"
-      # This is a placeholder. Add actual deployment steps when you have a hosting provider.
-
-  deploy-production:
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build project
-      run: npm run build --if-present
-    
-    - name: Deploy to production
-      run: |
-        echo "Deploying to production environment..."
-        # Add deployment steps here when ready
-      # This is a placeholder. Add actual deployment steps when you have a hosting provider.
-      

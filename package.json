@@ -1,13 +1,6 @@
-{
-  "name": "task-scheduler",
-  "version": "1.0.0",
-  "description": "A web application for scheduling and managing tasks",
-  "main": "script.js",
-  "scripts": {
-    "start": "open index.html",
-    "test": "echo \"No tests specified\" && exit 0"
-  },
-  "keywords": ["task", "scheduler", "productivity"],
-  "author": "Group2",
-  "license": "ISC"
+"scripts": {
+  "start": "open index.html",
+  "test": "jest",
+  "test:coverage": "jest --coverage",
+  "lint": "eslint ."
 }
