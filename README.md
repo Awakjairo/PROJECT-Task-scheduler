@@ -25,7 +25,7 @@ PROJECT-Task-scheduler/
 ├── docs/
 │   ├── branching-strategy.md     # Documentation of Git branching strategy
 │   ├── change-management-process.md  # Documentation of change management process
-│   └── cr-tracking-with-trello.md    # Documentation of CR tracking with Trello
+│
 ├── tests/
 │   └── script.test.js            # Unit tests for task management functions
 ├── .eslintrc.json                # ESLint configuration
