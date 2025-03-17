@@ -2,7 +2,7 @@
   "name": "task-scheduler",
   "version": "1.0.0",
   "description": "A task scheduler application",
-  "main": "index.js",
+  "main": "src/script.js",
   "scripts": {
     "start": "webpack serve --mode development --open",
     "test": "jest",
