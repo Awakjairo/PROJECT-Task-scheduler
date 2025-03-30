@@ -8,6 +8,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "build": "webpack --mode production",
     "dev": "webpack --mode development",
     "predeploy": "npm run build",
