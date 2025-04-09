@@ -100,7 +100,7 @@ global.document = {
     if (type === "button") {
       return {
         textContent: "",
-        addEventListener: jest.fn(),
+    addEventListener: jest.fn(),
       };
     }
     return {
